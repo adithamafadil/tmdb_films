@@ -1,4 +1,4 @@
-import 'package:tmdb_films/data/models/review/review_model.dart';
+import 'package:tmdb_films/data/dto/review/review_dto.dart';
 import 'package:tmdb_films/data/repositories/src/film_local_datasource.dart';
 import 'package:tmdb_films/data/repositories/src/film_remote_datasource.dart';
 import 'package:tmdb_films/domain/entities/film/film_entity.dart';
@@ -31,7 +31,7 @@ class FilmRepositoryImpl implements FilmRepository {
   ) async {
     return await _localDataSource.addFilmToWatchlist(
       type,
-      _filmMapper.entityToModel(film),
+      _filmMapper.entityToDto(film),
     );
   }
 
@@ -45,11 +45,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -65,11 +65,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -85,11 +85,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -106,11 +106,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -126,11 +126,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -146,11 +146,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -177,11 +177,11 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: data.map((e) => _filmMapper.modelToEntity(e)).toList(),
+        data: data.map((e) => _filmMapper.dtoToEntity(e)).toList(),
       ),
       error: (message, data, exception, stackTrace, statusCode) {
         return DataState.error(
-          data: data?.map((e) => _filmMapper.modelToEntity(e)).toList(),
+          data: data?.map((e) => _filmMapper.dtoToEntity(e)).toList(),
           message: message,
           exception: exception,
           stackTrace: stackTrace,
@@ -201,12 +201,12 @@ class FilmRepositoryImpl implements FilmRepository {
 
     return result.when(
       success: (data) => DataState.success(
-        data: _reviewMapper.modelToEntity(data),
+        data: _reviewMapper.dtoToEntity(data),
       ),
       error: (message, data, exception, stackTrace, statusCode) =>
           DataState.error(
-        data: _reviewMapper.modelToEntity(data ??
-            ReviewModel(
+        data: _reviewMapper.dtoToEntity(data ??
+            ReviewDTO(
               id: id,
               page: 0,
               results: [],

@@ -1,5 +1,5 @@
-import 'package:tmdb_films/data/models/film/film_model.dart';
-import 'package:tmdb_films/data/models/review/review_model.dart';
+import 'package:tmdb_films/data/dto/film/film_dto.dart';
+import 'package:tmdb_films/data/dto/review/review_dto.dart';
 import 'package:tmdb_films/state/data/data_state.dart';
 import 'package:tmdb_films/utils/enum.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +10,7 @@ class FilmRemoteDataSource {
   final Dio _client;
   const FilmRemoteDataSource(this._client);
 
-  Future<DataState<List<FilmModel>>> getNowPlayingFilms(FilmType type) async {
+  Future<DataState<List<FilmDTO>>> getNowPlayingFilms(FilmType type) async {
     try {
       String path = '';
 
@@ -20,7 +20,7 @@ class FilmRemoteDataSource {
       final response = await _client.get(path);
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);
@@ -33,12 +33,12 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> getPopularFilms(FilmType type) async {
+  Future<DataState<List<FilmDTO>>> getPopularFilms(FilmType type) async {
     try {
       final response = await _client.get('${type.endpoint()}/popular');
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);
@@ -51,7 +51,7 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> getRecommendationFilms(
+  Future<DataState<List<FilmDTO>>> getRecommendationFilms(
     FilmType type,
     int id,
   ) async {
@@ -61,7 +61,7 @@ class FilmRemoteDataSource {
       );
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);
@@ -74,12 +74,12 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> getTopRatedFilms(FilmType type) async {
+  Future<DataState<List<FilmDTO>>> getTopRatedFilms(FilmType type) async {
     try {
       final response = await _client.get('${type.endpoint()}/top_rated');
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);
@@ -92,14 +92,14 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> searchFilms(
+  Future<DataState<List<FilmDTO>>> searchFilms(
       FilmType type, String query) async {
     try {
       final response =
           await _client.get('/search${type.endpoint()}?query=$query');
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);
@@ -112,7 +112,7 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<ReviewModel>> getFilmReviews(
+  Future<DataState<ReviewDTO>> getFilmReviews(
     FilmType type,
     int id,
     int? page,
@@ -123,7 +123,7 @@ class FilmRemoteDataSource {
         '/${type.endpoint()}/$id/reviews?page=$reviewPage',
       );
 
-      final result = ReviewModel.fromJson(response.data);
+      final result = ReviewDTO.fromJson(response.data);
 
       return DataState.success(data: result);
     } on DioError catch (e) {
@@ -135,12 +135,12 @@ class FilmRemoteDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> getUpComingMovies() async {
+  Future<DataState<List<FilmDTO>>> getUpComingMovies() async {
     try {
       final response = await _client.get('/movie/upcoming');
 
       final result = (response.data['results'] as List)
-          .map((e) => FilmModel.fromJson(e))
+          .map((e) => FilmDTO.fromJson(e))
           .toList();
 
       return DataState.success(data: result);

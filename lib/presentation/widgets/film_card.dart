@@ -28,6 +28,7 @@ class FilmCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () {
+          print('Idnya: ${film.id}');
           context.read<FilmBloc>()
             ..add(GetWatchlistEvent(type: type))
             ..add(WatchlistCheckEvent(thisFilm: film))

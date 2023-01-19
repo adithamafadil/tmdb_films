@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:tmdb_films/data/models/film/film_model.dart';
+import 'package:tmdb_films/data/dto/film/film_dto.dart';
 import 'package:tmdb_films/domain/db/film_db_entity.dart';
 import 'package:tmdb_films/state/data/data_state.dart';
 import 'package:tmdb_films/utils/enum.dart';
@@ -13,16 +13,16 @@ class FilmLocalDataSource {
   const FilmLocalDataSource(this._box);
 
   Future<DataState<bool>> addFilmToWatchlist(
-      FilmType type, FilmModel film) async {
+      FilmType type, FilmDTO film) async {
     try {
       _box.put(
         '$type-${film.id}',
         FilmDbEntity()
           ..id = film.id
           ..title = film.name ?? film.title ?? ''
-          ..overview = film.overview
+          ..overview = film.overview ?? ''
           ..posterPath = film.posterPath
-          ..voteAverage = film.voteAverage
+          ..voteAverage = film.voteAverage ?? 0
           ..type = type.toString(),
       );
       return const DataState.success(data: true);
@@ -47,7 +47,7 @@ class FilmLocalDataSource {
     }
   }
 
-  Future<DataState<List<FilmModel>>> getWatchlistFilms(
+  Future<DataState<List<FilmDTO>>> getWatchlistFilms(
     FilmType type,
   ) async {
     try {
@@ -55,7 +55,7 @@ class FilmLocalDataSource {
           .cast<FilmDbEntity>()
           .where((i) => i.type == type.toString())
           .map(
-            (e) => FilmModel(
+            (e) => FilmDTO(
               id: e.id,
               name: e.title,
               title: e.title,
